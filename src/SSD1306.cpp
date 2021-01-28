@@ -20,17 +20,6 @@ void SSD1306::display(Bitmap * bitmap)
 	sendCommand(0x0);
 	sendCommand(getWidth() - 1);
 
-	/*for (int y = 0; y < getHeight(); y++)
-	{
-		_wire->beginTransmission(_address);
-		_wire->write(0x40);
-		for (int x = 0; x < getWidth() / 8; x++)
-		{
-			_wire->write(bitmap->_buffer[y][x]);
-		}
-		_wire->endTransmission();
-	}*/
-
 	for (int i = 0; i < getWidth() * getHeight() / 8; )
 	{
 		Wire.beginTransmission(_address);

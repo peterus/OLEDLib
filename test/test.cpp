@@ -99,7 +99,7 @@ void setup()
 	//delay(1000);
 	//RUN_TEST(test_empty);
 	//delay(1000);
-	/*RUN_TEST(test_draw_line);
+	RUN_TEST(test_draw_line);
 	delay(1000);
 	RUN_TEST(test_draw_rect);
 	delay(1000);
@@ -108,9 +108,9 @@ void setup()
 	RUN_TEST(test_draw_progress_bar);
 	delay(1000);
 	RUN_TEST(test_draw_char);
-	delay(1000);*/
-	RUN_TEST(test_draw_bitmap);
 	delay(1000);
+	//RUN_TEST(test_draw_bitmap);
+	//delay(1000);
 	UNITY_END();
 }
 

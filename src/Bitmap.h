@@ -4,19 +4,6 @@
 #include <Arduino.h>
 #include <memory>
 
-/*#define WIDTH_POS 0
-#define HEIGHT_POS 1
-#define FIRST_CHAR_POS 2
-#define CHAR_NUM_POS 3
-
-enum OLEDDISPLAY_TEXT_ALIGNMENT
-{
-	TEXT_ALIGN_LEFT = 0,
-	TEXT_ALIGN_RIGHT = 1,
-	TEXT_ALIGN_CENTER = 2,
-	TEXT_ALIGN_CENTER_BOTH = 3
-};*/
-
 class OLEDDisplay;
 
 class Bitmap
@@ -51,15 +38,13 @@ public:
 	void drawString(int x, int y, String text);
 	void drawStringf(int x, int y, char * buffer, String format, ... );
 
-	void drawBitmap(int x, int y, const Bitmap & bitmap);
+	//void drawBitmap(int x, int y, const Bitmap & bitmap);
 
 private:
 	const uint _width;
 	const uint _height;
 
-	//std::shared_ptr<uint8_t> _buffer;
 	uint8_t * _buffer;
-	//uint8_t ** _buffer;
 
 	void allocateBuffer();
 

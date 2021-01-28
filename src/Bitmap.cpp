@@ -19,11 +19,6 @@ Bitmap::~Bitmap()
 {
 	if(_buffer != 0)
 	{
-		/*for(int y = 0; y < _height; y++)
-		{
-			delete [] _buffer[y];
-		}
-		delete [] _buffer;*/
 		delete _buffer;
 	}
 }
@@ -42,15 +37,6 @@ void Bitmap::setPixel(int x, int y)
 {
 	if(x >= 0 && x < _width && y >= 0 && y < _height)
 	{
-		Serial.print(x);
-		Serial.print(",");
-		Serial.print(y);
-		Serial.print(" ");
-		Serial.print(x + (y / 8) * _width);
-		Serial.print(",");
-		Serial.println(1 << (y % 8));
-		//_buffer.get()[x + (y / 8) * _width] |=  (1 << (y & 7));
-		//_buffer[y][x / 8] |= (1 << (x % 8));
 		_buffer[x + (y / 8) * _width] |= (1 << (y % 8));
 	}
 }
@@ -59,27 +45,14 @@ void Bitmap::clearPixel(int x, int y)
 {
 	if(x >= 0 && x < _width && y >= 0 && y < _height)
 	{
-		//_buffer.get()[x + (y / 8) * _width] &= ~(1 << (y & 7));
-		//_buffer[y][x / 8] &= ~(1 << (x % 8));
 		_buffer[x + (y / 8) * _width] &= ~(1 << (y % 8));
 	}
 }
 
 bool Bitmap::getPixel(int x, int y) const
 {
-	/*Serial.print(x);
-	Serial.print(",");
-	Serial.print(y);
-	Serial.print(", ");
-	Serial.print(x * _width + (y / 8));
-	Serial.print(",");
-	Serial.print(_buffer.get()[x + (y / 8) * _width]);
-	Serial.print(",");
-	Serial.println(1 << (y & 7));*/
 	if(x >= 0 && x < _width && y >= 0 && y < _height)
 	{
-		//return _buffer.get()[x + (y / 8) * _width] & (1 << (y & 7));
-		//return _buffer[y][x / 8] & (1 << (x % 8));
 		return _buffer[x + (y / 8) * _width] & (1 << (y % 8));
 	}
 	return false;
@@ -87,22 +60,7 @@ bool Bitmap::getPixel(int x, int y) const
 
 void Bitmap::clear()
 {
-	if((_width * _height) % 8 > 0)
-	{
-		memset(_buffer, 0, _width * _height / 8 + 1);
-	}
-	else
-	{
-		memset(_buffer, 0, _width * _height / 8);
-	}
-	
-	/*for(int y = 0; y < _height; y++)
-	{
-		for(int x = 0; x < _width / 8; x++)
-		{
-			_buffer[y][x] = 0;
-		}
-	}*/
+	memset(_buffer, 0, _width * _height / 8);
 }
 
 void Bitmap::drawLine(int x0, int y0, int x1, int y1)
@@ -313,40 +271,6 @@ void Bitmap::drawProgressBar(int x, int y, int width, int height, int progress)
 	fillCircle(xRadius + maxProgressWidth, yRadius, innerRadius);
 }
 
-/*int Bitmap::drawChar(int x, int y, char c)
-{
-	fontInfo * fontData = (fontInfo*)ArialMT_Plain_10;
-	//uint8_t textHeight       = fontData->height;
-	//uint8_t firstChar        = fontData->firstChar;
-	uint16_t sizeOfJumpTable = fontData->numbersOfChars * 4;
-
-	//uint8_t charCode = c - firstChar;
-
-	uint8_t msbJumpToChar    = fontData->data[c + 4];
-	Serial.printf("msbJumpToChar: %d\n", msbJumpToChar);
-	uint8_t lsbJumpToChar    = fontData->data[c + 4 + 1];
-	Serial.printf("lsbJumpToChar: %d\n", lsbJumpToChar);
-	//uint8_t charByteSize     = fontData->data[c + 4 + 2];
-	uint8_t currentCharWidth = fontData->data[c + 4 + 3];
-	Serial.printf("currentCharWidth: %d\n", currentCharWidth);
-
-	uint16_t charDataPosition = 4 + sizeOfJumpTable + ((msbJumpToChar << 8) + lsbJumpToChar);
-	Serial.printf("charDataPosition: %d\n", charDataPosition);
-	//drawInternal(xPos, yPos, currentCharWidth, textHeight, fontData, charDataPosition, charByteSize);
-	/for(int xx = 0; xx < currentCharWidth; xx++)
-	{
-		for(int yy = 0; yy < fontData->height; yy++)
-		{
-			if(fontData->data[charDataPosition] & (1 << yy))
-			{
-				setPixel(x + xx, y + yy);
-			}
-		}
-	}*
-
-	return 2;
-}*/
-
 int Bitmap::drawChar(int x, int y, char c)
 {
 	fontDesc_t const * font = getSystemFont();
@@ -416,7 +340,7 @@ void Bitmap::drawStringf(int x, int y, char * buffer, String format, ... )
 	drawString(x, y, buffer);
 }
 
-void Bitmap::drawBitmap(int x, int y, const Bitmap & bitmap)
+/*void Bitmap::drawBitmap(int x, int y, const Bitmap & bitmap)
 {
 	if(_width < x + bitmap.getWidth() || _height < y + bitmap.getHeight())
 	{
@@ -442,22 +366,10 @@ void Bitmap::drawBitmap(int x, int y, const Bitmap & bitmap)
 			}
 		}
 	}
-}
+}*/
 
 void Bitmap::allocateBuffer()
 {
-	/*_buffer = new uint8_t*[_height];
-	for(int y = 0; y < _height; y++)
-	{
-		_buffer[y] = new uint8_t[_width / 8];
-	}*/
-	if((_width * _height) % 8 > 0)
-	{
-		_buffer = new uint8_t[_width * _height / 8 + 1];
-	}
-	else
-	{
-		_buffer = new uint8_t[_width * _height / 8];
-	}
+	_buffer = new uint8_t[_width * _height / 8];
 	clear();
 }
